@@ -6,8 +6,9 @@ class EmployeesAddForm extends Component {
         super(props);
         this.state = {
             name: '',
-            salary: ''
-        }
+            salary: '',
+            classNames: 'error'
+        };
     }
 
     onValueChange = (e) => {
@@ -18,11 +19,20 @@ class EmployeesAddForm extends Component {
 
     onCreateItem = (e) => {
         e.preventDefault();
-        this.props.onCreate(this.state.name, this.state.salary);
-        this.setState({
-            name: '',
-            salary: ''
-        })
+        if (this.state.name !== '' && this.state.salary !== '') {
+            const newClassNames = 'error'
+            this.props.onCreate(this.state.name, this.state.salary);
+            this.setState({
+                name: '',
+                salary: '',
+                classNames: newClassNames
+            });
+        } else {
+            const newClassNames = 'error visible'
+            this.setState({
+                classNames: newClassNames
+            });
+        }
     }
 
     render() {
@@ -47,6 +57,7 @@ class EmployeesAddForm extends Component {
                         className="btn btn-outline-light"
                         onClick={this.onCreateItem}>Додати</button>       
             </form>
+            <span className={this.state.classNames}>Будь ласка заповніть усі поля</span>
         </div>
         )
     }
